@@ -40,6 +40,10 @@ public plugin_init()
 
 public zp_zombie_class_choosed_pre(id, classid)
 {
+	// Prevent log error
+	if(classid < 0 || classid >= ArrayGetCell(g_ZombieClassLimit))
+		return PLUGIN_CONTINUE;
+
 	new current = players_using_zombie_class(classid)
 	new limit = ArrayGetCell(g_ZombieClassLimit, classid)
 	if (limit != NO_LIMIT)
