@@ -26,14 +26,18 @@ public plugin_init()
 	g_MapItemLimit = ArrayCreate(1, 1)
 	g_ItemLimitCount = ArrayCreate(1, 1)
 	g_MapItemLimitCount = ArrayCreate(1, 1)
-	
+
+	set_task(1.0, "load_save_limiter")
+}
+
+public load_save_limiter()
+{
 	new index, real_name[32], limit
 	
 	g_start = zp_get_custom_extra_start()
 	g_count = zp_get_extra_item_count()
 
-	for (index = g_start; index < g_count; index++)
-	{
+	for (index = g_start; index < g_count; index++) {
 		zp_get_extra_item_realname(index, real_name, charsmax(real_name))
 		
 		limit = NO_LIMIT		
@@ -62,7 +66,7 @@ public event_round_start()
 
 public zp_extra_item_selected(id, itemid)
 {
-	if(itemid < g_start)
+	if(itemid < g_start || itemid >= ArraySize(g_ItemLimitCount) || itemid >= ArraySize(g_MapItemLimitCount))
 		return;
 
 	if(ArrayGetCell(g_ItemLimit, ITEM_INDEX) != NO_LIMIT)
@@ -74,7 +78,7 @@ public zp_extra_item_selected(id, itemid)
 
 public zp_extra_item_selected_pre(id, itemid)
 {
-	if(itemid < g_start)
+	if(itemid < g_start || itemid >= ArraySize(g_ItemLimitCount) || itemid >= ArraySize(g_MapItemLimitCount))
 		return PLUGIN_CONTINUE;
 
 	static current, current_map, limit, map_limit
