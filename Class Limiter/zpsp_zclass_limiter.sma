@@ -18,17 +18,16 @@ public plugin_init()
 	register_plugin("[ZPSp] Class Limiter", "1.1", "WiLS | [P]erfect [S]crash")
 	
 	g_MaxPlayers = get_maxplayers()
-	
 	g_ZombieClassLimit = ArrayCreate(1, 1)
 	
-	new index, count, real_name[32]
+	static index, count, real_name[32], limit
 	
 	count = zp_get_zclass_count()
 	for (index = 0; index < count; index++)
 	{
 		zp_get_zombie_class_realname(index, real_name, charsmax(real_name))
 		
-		new limit = NO_LIMIT
+		limit = NO_LIMIT
 		
 		if (!amx_load_setting_int(ZP_ZOMBIECLASSES_FILE, real_name, "LIMIT", limit))
 			amx_save_setting_int(ZP_ZOMBIECLASSES_FILE, real_name, "LIMIT", limit)
@@ -41,14 +40,13 @@ public plugin_init()
 public zp_zombie_class_choosed_pre(id, classid)
 {
 	// Prevent log error
-	if(classid < 0 || classid >= ArrayGetCell(g_ZombieClassLimit))
+	if(classid < 0 || classid >= ArraySize(g_ZombieClassLimit))
 		return PLUGIN_CONTINUE;
 
-	new current = players_using_zombie_class(classid)
-	new limit = ArrayGetCell(g_ZombieClassLimit, classid)
-	if (limit != NO_LIMIT)
-	{
-		static text[32]
+	static current, limit, text[32]
+	current = players_using_zombie_class(classid)
+	limit = ArrayGetCell(g_ZombieClassLimit, classid)
+	if (limit != NO_LIMIT) {
 		formatex(text, charsmax(text), "\r[%d/%d]", current, limit)
 		zp_zombie_class_textadd(text)
 	}
