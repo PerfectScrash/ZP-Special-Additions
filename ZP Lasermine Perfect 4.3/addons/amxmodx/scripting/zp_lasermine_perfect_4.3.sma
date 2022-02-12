@@ -100,10 +100,10 @@
 											[Configuration]
 ===========================================================================================================================================================================================*/
 // Uncomment your Main Plugin Version
-#define ZP_43 // Zombie Plague 4.3
+//#define ZP_43 // Zombie Plague 4.3
 //#define ZP_50 // Zombie Plague 5.0
 //#define ZP_ADVANCE // Zombie Plague Advance
-//#define ZP_SPECIAL // Zombie Plague Special
+#define ZP_SPECIAL // Zombie Plague Special
 
 
 // You want a lasermine like a extra item? 
@@ -150,7 +150,7 @@ const MAX_CVARS = MODE_CUSTOM+1
 
 #if defined ZP_SPECIAL
 #include <zombie_plague_special>
-const MODE_CUSTOM = MODE_LNJ+1
+#define MODE_CUSTOM MODE_LNJ+1
 const MAX_CVARS = MODE_CUSTOM+1
 #endif
 
