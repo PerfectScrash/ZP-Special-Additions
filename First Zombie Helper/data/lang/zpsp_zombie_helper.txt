@@ -1,0 +1,5 @@
+[en]
+ZP_HELPER_PREFIX = ^4[ZP Helper]^1
+ZP_CHOSSED_HELPER = You are chossed for help the first zombie
+ZP_PLAYERS_HELPER = Chossed ^1%d^3 Players For Help the First Zombie
+ZP_NO_HELPER = Not have Helpers in this round

@@ -36,7 +36,7 @@ new Float:g_spawn_in[33][3], g_current_map, g_enable
 
 // Plugin Register and check if stay in map zm_5em1_scrash for enable script
 public plugin_init() {
-	register_plugin("[ZPSp] Map Script: zm_5em1_scrash", "1.0", "Perfect Scrash")
+	register_plugin("[ZPSp] Map Script: zm_5em1_scrash", "1.1", "Perfect Scrash")
 
 	new mapname[32]; get_mapname(mapname, charsmax(mapname))
 	if(equal(mapname, "zm_5em1_scrash"))
@@ -76,7 +76,7 @@ public zp_player_spawn_post(id)
 		entity_set_origin(id, origin)
 	}
 
-	client_printcolor(id, "!tConsole: -=| CURRENT MAP STAGE: %s |=-", map_names[g_current_map])
+	client_print_color(id, print_team_grey, "^3Console: -=| CURRENT MAP STAGE: %s |=-", map_names[g_current_map])
 }
 
 // "Change Map" After round end
@@ -141,66 +141,3 @@ public check_targets(type)
 		g_spawn_in[0][2] = origin[2]+10
 	}
 }
-
-// Client Print color with amx 1.8.2 Supports
-#if AMXX_VERSION_NUM < 183
-new g_maxpl
-stock client_printcolor(target, const message[], any:...) {
-	static buffer[512], i, argscount
-	argscount = numargs()
-
-	if(!g_maxpl)
-		g_maxpl = get_maxplayers()
-
-	// Format message for player
-	vformat(buffer, charsmax(buffer), message, 3)
-
-	replace_all(buffer, charsmax(buffer), "!g","^4");    // green
-	replace_all(buffer, charsmax(buffer), "!y","^1");    // normal
-	replace_all(buffer, charsmax(buffer), "!t","^3");    // team
-
-	if(!target) { // Send to everyone
-		static player
-		for(player = 1; player <= g_maxpl; player++) {
-			if(!is_user_connected(player) continue; // Not connected
-			
-			// Remember changed arguments
-			static changed[5], changedcount // [5] = max LANG_PLAYER occurencies
-			changedcount = 0
-			
-			for(i = 2; i < argscount; i++) { // Replace LANG_PLAYER with player id
-				if(getarg(i) == LANG_PLAYER) {
-					setarg(i, 0, player)
-					changed[changedcount] = i
-					changedcount++
-				}
-			}			
-			// Send it
-			message_begin(MSG_ONE_UNRELIABLE, get_user_msgid("SayText"), _, player)
-			write_byte(player)
-			write_string(buffer)
-			message_end()
-			
-			// Replace back player id's with LANG_PLAYER
-			for(i = 0; i < changedcount; i++) setarg(changed[i], 0, LANG_PLAYER)
-		}
-	}
-	else { // Send to specific target		
-		// Send it
-		message_begin(MSG_ONE, get_user_msgid("SayText"), _, target)
-		write_byte(target)
-		write_string(buffer)
-		message_end()
-	}
-}
-#else
-stock client_printcolor(target, const message[], any:...) {
-	static szMsg[512];
-	vformat(szMsg, charsmax(szMsg), message, 3);
-
-	replace_string(szMsg, charsmax(szMsg), "!g", "^4");    // green
-	replace_string(szMsg, charsmax(szMsg), "!y", "^1");    // normal
-	replace_string(szMsg, charsmax(szMsg), "!t", "^3");    // team
-	client_print_color(target, print_team_default, "%s", szMsg)
-}
-#endif

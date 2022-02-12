@@ -15,6 +15,8 @@
 			-> 1.1:
 				- No Support more to Amx 1.8.2 or older
 				- Added check player for prevent consecutives infections
+			-> 1.2:
+				- Added Lang Support
 
 */
 
@@ -22,13 +24,14 @@
 #include <zombie_plague_special>
 
 #if ZPS_INC_VERSION < 43
-#assert Zombie Plague Special 4.3 Include File Required. Download Link: https://forums.alliedmods.net/showthread.php?t=260845
+#assert Zombie Plague Special 4.3 or higher Include File Required. Download Link: https://forums.alliedmods.net/showthread.php?t=260845
 #endif
 
 new g_max_helpers, g_helper_count, helper_ckeck[33]
 
 public plugin_init() {
-	register_plugin("[ZP] First Zombie Helper", "1.1", "[P]erfect [S]crash")
+	register_plugin("[ZP] Addon: First Zombie Helper", "1.2", "[P]erfect [S]crash")
+	register_dictionary("zpsp_zombie_helper.txt")
 }
 
 public client_disconnected(id) {
@@ -72,13 +75,12 @@ public zp_round_started(gm)
 				if(zp_is_escape_map())
 					zp_do_random_spawn(id)
 				
-				client_print_color(id, print_team_default, "^4[ZP]^3 You are chossed for help the first zombie")
+				client_print_color(id, print_team_default, "%L %L", id, "ZP_HELPER_PREFIX", id, "ZP_CHOSSED_HELPER")
 			}
-			
-			client_print_color(0, print_team_default, "^4[ZP]^3 Are Chossed ^1%d^3 Players For Help the First Zombie", g_helper_count)
+			client_print_color(0, print_team_default, "%L %L", LANG_PLAYER, "ZP_HELPER_PREFIX", LANG_PLAYER, "ZP_PLAYERS_HELPER", g_helper_count)
 		}
 		else
-			client_print_color(0, print_team_default, "^4[ZP]^3 Not have Helpers in this round")
+			client_print_color(0, print_team_default, "%L %L", LANG_PLAYER, "ZP_HELPER_PREFIX", LANG_PLAYER, "ZP_NO_HELPER")
 	}
 
 	for(i = 1; i <= MaxClients; i++) {

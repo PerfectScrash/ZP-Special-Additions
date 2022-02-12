@@ -7,6 +7,13 @@
 		* Cvars:
 			zp_extra_infbomb_timer "120" - Time for use a Infection Bomb Again.
 
+		* Changelog:
+			- 1.0: 
+				- First Release
+			- 1.1:
+				- No Amx 1.8.2 Support
+				- Added lang support
+
 */
 
 #include <amxmodx>
@@ -17,16 +24,15 @@
 #endif
 
 #define PLUGIN  "[ZPSp] Addon: Delayed Infection Bomb"
-#define VERSION "1.0"
+#define VERSION "1.1"
 #define AUTHOR  "[P]erfec[T] [S]cr[@]s[H]"
 
 #define TASK_BOMB 1231012
 new cvar_timer, g_timer
 
-public plugin_init()
-{
+public plugin_init() {
 	register_plugin(PLUGIN, VERSION, AUTHOR)
-	
+	register_dictionary("zp_delayed_infbomb.txt")
 	cvar_timer = register_cvar("zp_extra_infbomb_timer", "120")
 }
 
@@ -35,28 +41,24 @@ public zp_round_ended() {
 	remove_task(TASK_BOMB)
 }
 
-public zp_extra_item_selected_pre(id, itemid)
-{
+public zp_extra_item_selected_pre(id, itemid) {
 	if(itemid != EXTRA_INFBOMB)
 		return PLUGIN_CONTINUE;
 
 	if(g_timer) {
-		static szText[100]
-		formatex(szText, charsmax(szText), "\r[Wait %d Seconds]", g_timer)
-		zp_extra_item_textadd(szText)
+		zp_extra_item_textadd(fmt("%L", id, "INFBOMB_MENU_WAIT", g_timer))
 		return ZP_PLUGIN_HANDLED
 	}
 
 	return PLUGIN_CONTINUE;
 }
 
-public zp_extra_item_selected(id, itemid)
-{
+public zp_extra_item_selected(id, itemid) {
 	if(itemid != EXTRA_INFBOMB)
 		return PLUGIN_CONTINUE;
 
 	if(g_timer) {
-		zp_colored_print(id, 1, "Infection Bomb Will be available in !t%d seconds", g_timer)
+		client_print_color(id, print_team_default, "%L %L", id, "DELAYED_PREFIX", id, "INFBOMB_CHAT_WAIT", g_timer)
 		return ZP_PLUGIN_HANDLED;
 	}
 	else {
@@ -66,11 +68,10 @@ public zp_extra_item_selected(id, itemid)
 	return PLUGIN_CONTINUE;
 }
 
-public timer()
-{
+public timer() {
 	if(!g_timer) {
 		remove_task(TASK_BOMB) 
-		zp_colored_print(0, 1, "Infection Bomb are available again. !t[Just Buy and Use]")
+		client_print_color(id, print_team_default, "%L %L", id, "DELAYED_PREFIX", id, "INFBOMB_AVAILABLE")
 		return;
 	}
 	else g_timer--

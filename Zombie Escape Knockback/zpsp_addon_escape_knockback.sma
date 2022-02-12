@@ -17,7 +17,9 @@
 #assert Zombie Plague Special 4.3 Include File Required. Download Link: https://forums.alliedmods.net/showthread.php?t=260845
 #endif
 
+#if ZPS_INC_VERSION < 45 // Error compiling fix when use newest version
 new const ZP_CUSTOMIZATION_FILE[] = "zombie_plague_special.ini"
+#endif
 
 #define PLUGIN "[ZP] Addon: Escape Knockback"
 #define VERSION "1.0"

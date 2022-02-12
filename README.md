@@ -1,5 +1,5 @@
 # ZP-Special-Additions
-Additions of Zombie Plague Special
+Additions of Zombie Plague Special (4.5 Version)
 
 ## Donate:
 - If you want to donate for my works to encourage me to continue with the work feel free to donate 

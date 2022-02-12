@@ -1,0 +1,5 @@
+[en]
+DELAYED_PREFIX = ^4[ZPSp]^1
+INFBOMB_CHAT_WAIT = Infection Bomb Will be available in ^3%d seconds
+INFBOMB_AVAILABLE = Infection Bomb are available again. ^3[Just Buy and Use]
+INFBOMB_MENU_WAIT = \r[Wait %d Seconds]

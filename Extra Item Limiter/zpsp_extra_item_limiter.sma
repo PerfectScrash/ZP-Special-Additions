@@ -6,8 +6,10 @@
 	#assert Zombie Plague Special 4.4 Include File Required. Download Link: https://github.com/PerfectScrash/Zombie-Plague-Special/tree/master/Zombie%20Plague%20Special%204.4%20(Beta)/scripting/include
 #endif
 
+#if ZPS_INC_VERSION < 45 // Error compiling fix when use newest version
 // Extra Itens file
 new const ZP_EXTRAITEMS_FILE[] = "zpsp_extraitems.ini"
+#endif
 
 #define NO_LIMIT 0
 
@@ -17,9 +19,8 @@ new const ZP_EXTRAITEMS_FILE[] = "zpsp_extraitems.ini"
 new Array:g_ItemLimit, Array:g_MapItemLimit, Array:g_ItemLimitCount, Array:g_MapItemLimitCount, g_start, g_count, g_maxplayers
 new Array:g_PlayerItemLimit, Array:g_PlayerMapItemLimit, Array:g_PlayerLimitCount[33], Array:g_MapPlayerLimitCount[33]
 
-public plugin_init()
-{
-	register_plugin("[ZPSp] Item Limiter", "1.1", "WiLS | [P]erfect [S]crash")
+public plugin_init() {
+	register_plugin("[ZPSp] Addon: Item Limiter", "1.1", "WiLS | [P]erfect [S]crash")
 
 	register_event("HLTV", "event_round_start", "a", "1=0", "2=0")
 	
@@ -40,8 +41,7 @@ public plugin_init()
 	set_task(1.0, "load_save_limiter")
 }
 
-public load_save_limiter()
-{
+public load_save_limiter() {
 	new index, real_name[128], limit, i
 	
 	g_start = zp_get_custom_extra_start()
@@ -84,8 +84,7 @@ public load_save_limiter()
 	}
 }
 
-public event_round_start()
-{
+public event_round_start() {
 	// Reset Round Limit Count
 	static i, item
 	for(i = 0; i < ArraySize(g_ItemLimitCount); i++) 
@@ -97,8 +96,7 @@ public event_round_start()
 	}
 }	
 
-public zp_extra_item_selected(id, itemid)
-{
+public zp_extra_item_selected(id, itemid) {
 	if(itemid < g_start)
 		return;
 
@@ -116,8 +114,7 @@ public zp_extra_item_selected(id, itemid)
 
 }
 
-public zp_extra_item_selected_pre(id, itemid)
-{
+public zp_extra_item_selected_pre(id, itemid) {
 	if(itemid < g_start)
 		return PLUGIN_CONTINUE;
 
