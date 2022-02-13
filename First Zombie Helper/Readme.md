@@ -13,3 +13,5 @@
 	* 1.1:
 		- No Support more to Amx 1.8.2 or older
 		- Added check player for prevent consecutives infections
+	* 1.2:
+		- Added Lang Support
