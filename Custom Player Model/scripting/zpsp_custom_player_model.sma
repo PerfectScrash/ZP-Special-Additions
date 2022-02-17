@@ -13,7 +13,7 @@
 #include <zombie_plague_special>
 
 #if ZPS_INC_VERSION < 45
-#assert Zombie Plague Special 4.3 Include File Required. Download Link: https://forums.alliedmods.net/showthread.php?t=260845
+#assert Zombie Plague Special 4.5 Include File Required. Download Link: https://forums.alliedmods.net/showthread.php?t=260845
 #endif
 
 #define PLUGIN "[ZP] Plugin: Player Skins"
@@ -129,10 +129,10 @@ public zp_user_model_change_pre(id, model[], body, skin) {
 		skin = ArrayGetCell(skin_human_skin, user_skin_id[id]-1)
 	}
 		
-	if(!equal(skin_string, "!default") && !equal(skin_string, model)) {
+	if(!equal(skin_string, "!default")) {
 		zp_set_param_string(skin_string)	// Change a forward parameter (More faster than zp override user model)
-		zp_set_fw_param_int(0, body)
-		zp_set_fw_param_int(1, skin)
+		zp_set_fw_param_int(2, body)
+		zp_set_fw_param_int(3, skin)
 		//return ZP_PLUGIN_SUPERCEDE;
 		return PLUGIN_CONTINUE;
 	}
