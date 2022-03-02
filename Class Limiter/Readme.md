@@ -11,4 +11,6 @@ When plugin enables, will be add a limit line in **zpsp_zombieclasses.ini** or *
     - Fixed error logs
 -1.2:
     - Added Human Class Support (Works only in ZPSp 4.5)
+-1.3:
+    - Added min players option
 ```
