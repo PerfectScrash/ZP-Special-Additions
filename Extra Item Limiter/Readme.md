@@ -10,3 +10,5 @@
 		- Added more limit options.
 	* 1.2:
 		- Fixing player limit when some disconnect and other player gets the same index.
+	* 1.3:
+		- Added Min Players Option

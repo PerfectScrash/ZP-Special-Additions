@@ -1,4 +1,4 @@
-/*=======================================================================================
+/*========================================================================================================
 -> [ZPSp] Addon: Extra Item Limiter
 
 -> How to use:
@@ -12,7 +12,9 @@
 		- Added more limit options.
 	* 1.2:
 		- Fixing player limit when some disconnect and other player gets the same index. 
-========================================================================================*/
+	* 1.3:
+		- Added Min Players Option
+==========================================================================================================*/
 
 #include <amxmodx>
 #include <amx_settings_api>
@@ -33,7 +35,7 @@ new const ZP_EXTRAITEMS_FILE[] = "zpsp_extraitems.ini"
 #define ITEM_INDEX itemid-g_start
 
 new Array:g_ItemLimit, Array:g_MapItemLimit, Array:g_ItemLimitCount, Array:g_MapItemLimitCount, g_start, g_count
-new Array:g_PlayerItemLimit, Array:g_PlayerMapItemLimit, Array:g_PlayerLimitCount[33], Array:g_MapPlayerLimitCount[33]
+new Array:g_PlayerItemLimit, Array:g_PlayerMapItemLimit, Array:g_PlayerLimitCount[33], Array:g_MapPlayerLimitCount[33], Array:g_MinPlayersRequired
 
 public plugin_init() {
 	register_plugin("[ZPSp] Addon: Item Limiter", "1.2", "WiLS | [P]erfect [S]crash")
@@ -46,6 +48,7 @@ public plugin_init() {
 	g_MapItemLimitCount = ArrayCreate(1, 1)
 	g_PlayerItemLimit = ArrayCreate(1, 1)
 	g_PlayerMapItemLimit = ArrayCreate(1, 1)
+	g_MinPlayersRequired = ArrayCreate(1, 1)
 
 	for(new i = 1; i <= MaxClients; i++) {
 		g_PlayerLimitCount[i] = ArrayCreate(1, 1)
@@ -88,6 +91,12 @@ public load_save_limiter() {
 			amx_save_setting_int(ZP_EXTRAITEMS_FILE, real_name, "PLAYER LIMIT PER MAP", limit)
 
 		ArrayPushCell(g_PlayerMapItemLimit, limit)
+		
+		limit = NO_LIMIT;
+		if (!amx_load_setting_int(ZP_EXTRAITEMS_FILE, real_name, "MIN PLAYERS REQUIRED", limit))
+			amx_save_setting_int(ZP_EXTRAITEMS_FILE, real_name, "MIN PLAYERS REQUIRED", limit)
+
+		ArrayPushCell(g_MinPlayersRequired, limit)
 
 		ArrayPushCell(g_ItemLimitCount, 0)
 		ArrayPushCell(g_MapItemLimitCount, 0)
@@ -161,6 +170,16 @@ public zp_extra_item_selected_pre(id, itemid) {
 	if(itemid < g_start)
 		return PLUGIN_CONTINUE;
 
+	// Min Players Required
+	static min_players;
+	min_players = ArrayGetCell(g_MinPlayersRequired, ITEM_INDEX);
+	if(min_players != NO_LIMIT) { // Two ifs for dont execute unecessary loops (Most Perfomace)
+		if(GetPlayersNum() < min_players) {
+			zp_extra_item_textadd(fmt("\r[Required %d Players]", min_players))
+			return ZP_PLUGIN_HANDLED;
+		}
+	}
+
 	static current, current_map, limit, map_limit
 	static pl_current, pl_current_map, pl_limit, pl_map_limit
 
@@ -201,4 +220,22 @@ public zp_extra_item_selected_pre(id, itemid) {
 		return ZP_PLUGIN_HANDLED;
 	
 	return PLUGIN_CONTINUE;
+}
+
+// Get Real Players Count (Spec/Bots/Unassigned dont count)
+stock GetPlayersNum() {
+	static playerCnt, i, userTeam;
+	playerCnt = 0;
+	for(i = 1; i <= MaxClients; i++) {
+		if(!is_user_connected(i))
+			continue;
+
+		if(is_user_bot(i))
+			continue;
+
+		userTeam = get_user_team(i)
+		if(userTeam == 1 || userTeam == 2)
+			playerCnt++;
+	}
+	return playerCnt;
 }
