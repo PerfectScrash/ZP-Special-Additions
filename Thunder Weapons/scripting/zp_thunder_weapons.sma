@@ -11,6 +11,8 @@
 ---> Change Log:
 * 1.0:
 	- Fist Release
+* 1.1:
+	- Fixed Small bug when you kill a zombie, the weapon model dont change
 
 ==========================================================================*/
 
@@ -170,6 +172,7 @@ public fw_PlayerKilled_Post(victim, attacker, shouldgib) {
 	emit_sound(victim, CHAN_ITEM, sound_thunder, 1.0, ATTN_NORM, 0, PITCH_NORM);
 	emit_sound(attacker, CHAN_ITEM, sound_thunder, 1.0, ATTN_NORM, 0, PITCH_NORM);
 	g_has_thunder[attacker] = true
+	zp_fw_deploy_weapon(attacker, get_user_weapon(attacker)) // Fix model dont change bug
 
 	return HAM_IGNORED;
 }
