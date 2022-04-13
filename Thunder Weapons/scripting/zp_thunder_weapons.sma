@@ -13,6 +13,8 @@
 	- Fist Release
 * 1.1:
 	- Fixed Small bug when you kill a zombie, the weapon model dont change
+* 1.2:
+	- Small bug fix (Interference with X Custom weapon)
 
 ==========================================================================*/
 
@@ -27,7 +29,7 @@
 -> Credits
 ---------------------------------*/
 #define PLUGIN "[ZPSp] Addon: Thunder Weapons"
-#define VERSION "1.0"
+#define VERSION "1.2"
 #define AUTHOR "Perfect Scrash"
 
 /*-------------------------------
@@ -171,8 +173,11 @@ public fw_PlayerKilled_Post(victim, attacker, shouldgib) {
 	zp_set_user_rendering(victim, kRenderFxGlowShell, 255, 255, 255, kRenderNormal, 20)
 	emit_sound(victim, CHAN_ITEM, sound_thunder, 1.0, ATTN_NORM, 0, PITCH_NORM);
 	emit_sound(attacker, CHAN_ITEM, sound_thunder, 1.0, ATTN_NORM, 0, PITCH_NORM);
-	g_has_thunder[attacker] = true
-	zp_fw_deploy_weapon(attacker, get_user_weapon(attacker)) // Fix model dont change bug
+	
+	if(!g_has_thunder[attacker]) { // Small bug fix (Thanks 8K300FPS)
+		g_has_thunder[attacker] = true
+		zp_fw_deploy_weapon(attacker, get_user_weapon(attacker)) // Fix model dont change bug
+	}
 
 	return HAM_IGNORED;
 }
