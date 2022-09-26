@@ -7,6 +7,7 @@
 	* Changelog:
 		- 1.0: First release.
 		- 1.1: Added Body/Skin support
+		- 1.2: Fixex 0/0.mdl not found error
 */
 
 #include <amxmodx>
@@ -72,7 +73,7 @@ public load_skins_files() {
 	for(Num = 0; Num < MaxFileLine; Num++) {
 		read_file(sConfig, Num, Line, charsmax(Line), Len);
 		parse(Line, Data[0], charsmax(Data[]), Data[1], charsmax(Data[]), Data[2], charsmax(Data[]), Data[3], charsmax(Data[]),
-		Data[4], charsmax(Data[]), Data[4], charsmax(Data[]), Data[5], charsmax(Data[]), Data[6], charsmax(Data[]), Data[7], charsmax(Data[]));
+		Data[4], charsmax(Data[]), Data[5], charsmax(Data[]), Data[6], charsmax(Data[]), Data[7], charsmax(Data[]));
 		
 		if(Line[0] == ';' || 2 > strlen(Line) || !Line[0] || Line[0] == '/' || Line[0] == '\')
 			continue;

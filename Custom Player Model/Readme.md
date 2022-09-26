@@ -9,3 +9,7 @@
 ```
 - 1.0: 
     - First Release
+- 1.1:
+    Added Body/Skin support
+- 1.2: 
+    Fixex 0/0.mdl not found error
