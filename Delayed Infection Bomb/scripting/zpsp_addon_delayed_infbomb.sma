@@ -71,7 +71,7 @@ public zp_extra_item_selected(id, itemid) {
 public timer() {
 	if(!g_timer) {
 		remove_task(TASK_BOMB) 
-		client_print_color(id, print_team_default, "%L %L", id, "DELAYED_PREFIX", id, "INFBOMB_AVAILABLE")
+		client_print_color(0, print_team_default, "%L %L", id, "DELAYED_PREFIX", id, "INFBOMB_AVAILABLE")
 		return;
 	}
 	else g_timer--
