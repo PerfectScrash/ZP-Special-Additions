@@ -18,7 +18,7 @@
 #endif
 
 #define PLUGIN "[ZP] Plugin: Player Skins"
-#define VERSION "1.1"
+#define VERSION "1.2"
 #define AUTHOR "[P]erfec[T] [S]cr[@]s[H]"
 
 new const INI_FILE[] = "zpsp_player_skins.ini"
